@@ -1,8 +1,5 @@
 package com.riwi.surveys.domain.entities;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,29 +14,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "survey")
+@Entity(name = "question")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SurveyEntity {
+public class QuestionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private String title;
+    private Long id; 
     @Column(columnDefinition = "TEXT")
-    private String description;
+    private String text;
+    @Column(length = 50, nullable = false)
+    private String type;
+    private Long surveyId;
     @Column(nullable = false)
-    private LocalDateTime creationDate;
-    private Long creatorId;
-    @Column(nullable = false)
-    private Boolean active;
+    private Double active;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private UserEntity userId;
+    private SurveyEntity surveyEntity;
 
-    @OneToMany(mappedBy = "surveyId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
-    private QuestionEntity quiestionId;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Optionquestion optionquestion;
 }
